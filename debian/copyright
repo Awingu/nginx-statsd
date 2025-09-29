@@ -5,11 +5,10 @@ Source: https://github.com/Awingu/nginx-statsd
 
 Files: *
 Copyright: 2012 Zebrafish Labs Inc.
-           2017 Awingu
 License: BSD-2-Clause
 
 Files: debian/*
-Copyright: 2025 Parallels International GmbH.
+Copyright: Copyright © 2025 Parallels International GmbH. All rights reserved.
 License: BSD-2-Clause
 
 License: BSD-2-Clause

@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+# Copyright © 2025 Parallels International GmbH. All rights reserved.
+
 export DH_VERBOSE=1
 export SHELL=/bin/bash
 

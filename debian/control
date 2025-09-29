@@ -3,6 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: Parallels International GmbH <noreply@parallels.com>
 Build-Depends: debhelper-compat (= 12),
+               dh-sequence-nginx,
                nginx-dev,
                libssl-dev,
                zlib1g-dev
@@ -13,7 +14,8 @@ Vcs-Browser: https://github.com/Awingu/nginx-statsd
 
 Package: libnginx-mod-http-statsd
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, nginx | nginx-full | nginx-extras
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${nginx:abi}
+Recommends: nginx
 Description: nginx HTTP statsd module
  This nginx module allows sending statistics to statsd servers.
  .
