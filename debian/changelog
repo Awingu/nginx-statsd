@@ -1,0 +1,15 @@
+nginx-statsd (1.0.0-1) unstable; urgency=medium
+
+  * Initial release of nginx-statsd module as dynamic module
+  * Supports sending statistics to statsd servers
+  * Provides statsd_server, statsd_sample_rate, statsd_count, statsd_timing directives
+  * Built as dynamic loadable module
+
+ -- Parallels International GmbH <noreply@parallels.com>  Sun, 28 Sep 2025 00:00:00 +0000
+
+nginx-statsd (1.0.0-2) unstable; urgency=medium
+
+  * Added proper nginx ABI dependency using ${nginx:abi} substitution
+  * Integrated with dh-sequence-nginx for standard nginx module packaging
+
+ -- Parallels International GmbH <noreply@parallels.com>  Sun, 29 Sep 2025 10:00:00 +0000

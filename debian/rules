@@ -1,0 +1,50 @@
+#!/usr/bin/make -f
+
+# Copyright © 2025 Parallels International GmbH. All rights reserved.
+
+export DH_VERBOSE=1
+export SHELL=/bin/bash
+
+BUILDDIR := $(CURDIR)/build
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	# Create build directory
+	mkdir -p $(BUILDDIR)/nginx-statsd
+
+	# Copy nginx source and our module
+	cp -r /usr/share/nginx/src/* $(BUILDDIR)/
+	cp $(CURDIR)/ngx_http_statsd.c $(CURDIR)/config $(BUILDDIR)/nginx-statsd/
+
+	# Configure nginx with our module
+	cd $(BUILDDIR) && \
+	source /usr/share/nginx/src/conf_flags && \
+	./configure "$${NGX_CONF_FLAGS[@]}" \
+		--add-dynamic-module=nginx-statsd
+
+override_dh_auto_build:
+	cd $(BUILDDIR) && $(MAKE) -f objs/Makefile modules
+
+override_dh_auto_install:
+	# Install the module
+	install -d $(CURDIR)/debian/libnginx-mod-http-statsd/usr/lib/nginx/modules
+	install -m644 $(BUILDDIR)/objs/ngx_http_statsd_module.so \
+		$(CURDIR)/debian/libnginx-mod-http-statsd/usr/lib/nginx/modules/
+
+	# Install module configuration
+	install -d $(CURDIR)/debian/libnginx-mod-http-statsd/usr/share/nginx/modules-available
+	echo "load_module modules/ngx_http_statsd_module.so;" > \
+		$(CURDIR)/debian/libnginx-mod-http-statsd/usr/share/nginx/modules-available/mod-http-statsd.conf
+
+override_dh_auto_test:
+	cd $(BUILDDIR)/objs && \
+	tmp_conf=$$(mktemp -p .) && \
+	echo "load_module $$PWD/ngx_http_statsd_module.so;" >> "$$tmp_conf" && \
+	echo "events{}" >> "$$tmp_conf" && \
+	/usr/sbin/nginx -g "error_log /dev/null; pid /dev/null;" -t -q -c "$$PWD/$$tmp_conf" && \
+	rm -f "$$tmp_conf"
+
+override_dh_auto_clean:
+	rm -rf $(BUILDDIR)

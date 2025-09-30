@@ -1,0 +1,28 @@
+Source: nginx-statsd
+Section: httpd
+Priority: optional
+Maintainer: Parallels International GmbH <noreply@parallels.com>
+Build-Depends: debhelper-compat (= 12),
+               dh-sequence-nginx,
+               nginx-dev,
+               libssl-dev,
+               zlib1g-dev
+Standards-Version: 4.6.2
+Homepage: https://github.com/Awingu/nginx-statsd
+Vcs-Git: https://github.com/Awingu/nginx-statsd.git
+Vcs-Browser: https://github.com/Awingu/nginx-statsd
+
+Package: libnginx-mod-http-statsd
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${nginx:abi}
+Recommends: nginx
+Description: nginx HTTP statsd module
+ This nginx module allows sending statistics to statsd servers.
+ .
+ The module provides directives to:
+  - Set the statsd server address
+  - Configure sampling rates
+  - Send counters and timing data
+  - Conditionally send statistics based on variables
+ .
+ This is a dynamic module that can be loaded by nginx.
